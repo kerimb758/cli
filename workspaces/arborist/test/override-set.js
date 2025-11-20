@@ -558,4 +558,24 @@ t.test('coverage for isEqual edge cases', async t => {
     // AND parent.isEqual(...) returns false
     t.notOk(childC.isEqual(childD), 'two children with different parents are not equal')
   })
+
+  t.test('should handle undefined/null second parameter gracefully', async (t) => {
+    const overrides = new OverrideSet({
+      overrides: {
+        react: '^18.3.1',
+        'react-dom': '^18.3.1',
+      },
+    })
+
+    t.doesNotThrow(() => {
+      OverrideSet.doOverrideSetsConflict(overrides, undefined)
+    }, 'should not throw when second parameter is undefined')
+
+    t.doesNotThrow(() => {
+      OverrideSet.doOverrideSetsConflict(overrides, null)
+    }, 'should not throw when second parameter is null')
+
+    t.equal(OverrideSet.doOverrideSetsConflict(overrides, undefined), false, 'should return false for undefined')
+    t.equal(OverrideSet.doOverrideSetsConflict(overrides, null), false, 'should return false for null')
+  })
 })

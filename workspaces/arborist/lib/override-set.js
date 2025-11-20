@@ -200,6 +200,11 @@ class OverrideSet {
   }
 
   static doOverrideSetsConflict (first, second) {
+    // If either override set is missing, there's no conflict
+    if (!first || !second) {
+      return false
+    }
+
     // If override sets contain one another then we can try to use the more specific one.
     // If neither one is more specific, check for semantic conflicts.
     const specificSet = this.findSpecificOverrideSet(first, second)
